@@ -51,10 +51,12 @@ class IndexControllerTest {
 
     private IndexController indexController;
 
+    private ProfilesService profilesService;
+
     @BeforeEach
     void initTest() {
         this.indexController = new IndexController(
-                categoriesService, interviewsService, authService, notificationService
+                categoriesService, interviewsService, authService, notificationService, profilesService
         );
     }
 
