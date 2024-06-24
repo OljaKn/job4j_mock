@@ -3,6 +3,7 @@ package ru.job4j.site.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,6 +52,7 @@ class IndexControllerTest {
 
     private IndexController indexController;
 
+    @MockBean
     private ProfilesService profilesService;
 
     @BeforeEach
@@ -58,12 +60,12 @@ class IndexControllerTest {
         this.indexController = new IndexController(
                 categoriesService, interviewsService, authService, notificationService, profilesService
         );
+        profilesService = Mockito.mock(ProfilesService.class);
     }
 
     @Test
     void whenGetIndexPageThenReturnIndex() throws Exception {
         this.mockMvc.perform(get("/"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));
     }
@@ -97,7 +99,6 @@ class IndexControllerTest {
         var actualBreadCrumbs = model.getAttribute("breadcrumbs");
         var actualUserInfo = model.getAttribute("userInfo");
         var actualInterviews = model.getAttribute("new_interviews");
-
         assertThat(view).isEqualTo("index");
         assertThat(actualCategories).usingRecursiveComparison().isEqualTo(listCat);
         assertThat(actualBreadCrumbs).usingRecursiveComparison().isEqualTo(listBread);
