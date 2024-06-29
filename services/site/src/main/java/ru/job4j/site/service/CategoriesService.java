@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import ru.job4j.site.dto.CategoryDTO;
 
 import java.util.List;
@@ -76,5 +78,12 @@ public class CategoriesService {
             }
         }
         return result;
+    }
+
+    private int getNewInterviewsCount(int categoryId) {
+        String url = "http://localhost:9902/interviews/new/count?categoryId=" + categoryId;
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Integer> response = restTemplate.getForEntity(url, Integer.class);
+        return response.getBody();
     }
 }
