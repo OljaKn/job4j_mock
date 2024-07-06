@@ -90,7 +90,7 @@ class IndexControllerTest {
         var listInterviews = List.of(firstInterview, secondInterview);
         when(topicsService.getByCategory(cat1.getId())).thenReturn(List.of(topicDTO1));
         when(topicsService.getByCategory(cat2.getId())).thenReturn(List.of(topicDTO2));
-        when(categoriesService.getMostPopular()).thenReturn(listCat);
+        when(categoriesService.getAllWithTopicsAndNewInterviews()).thenReturn(listCat);
         when(interviewsService.getByType(1)).thenReturn(listInterviews);
         var listBread = List.of(new Breadcrumb("Главная", "/"));
         var model = new ConcurrentModel();
