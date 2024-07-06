@@ -13,7 +13,7 @@ public class CategoryDTO {
     private int total;
     private int topicsSize;
     private int position;
-    private int newInterviews;
+    private int countNewInterviews;
 
     public CategoryDTO(int id, String name) {
         this(id, name, 0, 0, 0, 0);

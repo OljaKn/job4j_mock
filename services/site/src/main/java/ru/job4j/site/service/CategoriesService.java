@@ -4,10 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import ru.job4j.site.dto.CategoryDTO;
+import ru.job4j.site.dto.TopicDTO;
 
 import java.util.List;
 
@@ -15,12 +14,27 @@ import java.util.List;
 @Service
 public class CategoriesService {
     private final TopicsService topicsService;
+    private final InterviewsService interviewsService;
 
     public List<CategoryDTO> getAll() throws JsonProcessingException {
         var text = new RestAuthCall("http://localhost:9902/categories/").get();
         var mapper = new ObjectMapper();
         return mapper.readValue(text, new TypeReference<>() {
         });
+    }
+
+    public List<CategoryDTO> getAllWithTopicsAndNewInterviews() throws JsonProcessingException {
+        List<CategoryDTO> categoriesDTO = getAll();
+        for (CategoryDTO categoryDTO : categoriesDTO) {
+            List<TopicDTO> topics = topicsService.getByCategory(categoryDTO.getId());
+            categoryDTO.setTopicsSize(topics.size());
+            int newInterviewsCount = 0;
+            for (TopicDTO topic : topics) {
+                newInterviewsCount += interviewsService.countNewInterviewsByTopicId(topic.getId());
+            }
+            categoryDTO.setCountNewInterviews(newInterviewsCount);
+        }
+        return categoriesDTO;
     }
 
     public List<CategoryDTO> getPopularFromDesc() throws JsonProcessingException {
@@ -78,12 +92,5 @@ public class CategoriesService {
             }
         }
         return result;
-    }
-
-    private int getNewInterviewsCount(int categoryId) {
-        String url = "http://localhost:9902/interviews/new/count?categoryId=" + categoryId;
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Integer> response = restTemplate.getForEntity(url, Integer.class);
-        return response.getBody();
     }
 }

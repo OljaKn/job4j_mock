@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import ru.job4j.site.domain.StatusInterview;
 import ru.job4j.site.dto.InterviewDTO;
 import ru.job4j.site.util.RestPageImpl;
 
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -71,5 +71,12 @@ public class InterviewsService {
             }
         }
         return builder.toString();
+    }
+
+    public int countNewInterviewsByTopicId(int topicId) throws JsonProcessingException {
+        List<InterviewDTO> interviews = getByTopicId(topicId, 0, Integer.MAX_VALUE).getContent();
+        return (int) interviews.stream()
+                .filter(interview -> interview.getStatus() == StatusInterview.IS_NEW.getId())
+                .count();
     }
 }

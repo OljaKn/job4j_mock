@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import ru.job4j.site.dto.CategoryDTO;
 import ru.job4j.site.dto.InterviewDTO;
 import ru.job4j.site.dto.ProfileDTO;
 import ru.job4j.site.service.*;
@@ -35,7 +36,8 @@ public class IndexController {
                 "Главная", "/"
         );
         try {
-            model.addAttribute("categories", categoriesService.getMostPopular());
+            List<CategoryDTO> categories = categoriesService.getAllWithTopicsAndNewInterviews();
+            model.addAttribute("categories", categories);
             var token = getToken(req);
             if (token != null) {
                 var userInfo = authService.userInfo(token);
