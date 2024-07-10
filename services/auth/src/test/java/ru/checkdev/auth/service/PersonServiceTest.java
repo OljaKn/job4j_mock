@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.checkdev.auth.domain.Profile;
-import ru.checkdev.auth.repository.PersonRepository;
+import ru.checkdev.auth.repository.ProfileRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,10 +24,10 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest
 public class PersonServiceTest {
     @Autowired
-    private PersonService service;
+    private ProfileService service;
 
     @Autowired
-    private PersonRepository persons;
+    private ProfileRepository persons;
 
     @After
     @Test

@@ -27,7 +27,7 @@ public class PersonRepositoryTest {
     @Autowired
     private EntityManager entityManager;
     @Autowired
-    private PersonRepository personRepository;
+    private ProfileRepository personRepository;
 
     @Before
     public void clearTable() {

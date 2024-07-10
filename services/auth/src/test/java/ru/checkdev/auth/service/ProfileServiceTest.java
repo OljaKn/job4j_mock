@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.checkdev.auth.dto.ProfileDTO;
-import ru.checkdev.auth.repository.PersonRepository;
+import ru.checkdev.auth.repository.ProfileRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,9 +30,9 @@ import static org.mockito.Mockito.when;
 public class ProfileServiceTest {
     private static final int ID_OK = 1;
     @MockBean
-    private PersonRepository personRepository;
+    private ProfileRepository personRepository;
     @Autowired
-    private ProfileService profileService;
+    private ProfileDTOService profileService;
     private final ProfileDTO profileDTO1 = new ProfileDTO(
             1, "name1", "experience1", 1, null, null);
     private final ProfileDTO profileDTO2 = new ProfileDTO(

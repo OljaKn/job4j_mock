@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.checkdev.auth.domain.Profile;
 import ru.checkdev.auth.domain.Role;
-import ru.checkdev.auth.repository.PersonRepository;
+import ru.checkdev.auth.repository.ProfileRepository;
 
 import java.util.Collections;
 
@@ -25,7 +25,7 @@ public class RoleServiceTest {
     private RoleService service;
 
     @Autowired
-    private PersonRepository persons;
+    private ProfileRepository persons;
 
     @Test
     public void whenAddRolesThenPersonHasRoles() {

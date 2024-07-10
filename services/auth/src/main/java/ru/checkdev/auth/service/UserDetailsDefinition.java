@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import ru.checkdev.auth.domain.Profile;
-import ru.checkdev.auth.repository.PersonRepository;
+import ru.checkdev.auth.repository.ProfileRepository;
 
 import java.util.stream.Collectors;
 
@@ -18,9 +18,9 @@ public class UserDetailsDefinition implements org.springframework.security.core.
 
     private final Logger log = LoggerFactory.getLogger(UserDetailsDefinition.class);
 
-    private final PersonRepository persons;
+    private final ProfileRepository persons;
 
-    public UserDetailsDefinition(PersonRepository persons) {
+    public UserDetailsDefinition(ProfileRepository persons) {
         this.persons = persons;
     }
 

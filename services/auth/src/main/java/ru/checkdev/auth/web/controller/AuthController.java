@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.checkdev.auth.domain.Profile;
-import ru.checkdev.auth.service.PersonService;
+import ru.checkdev.auth.service.ProfileService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -16,11 +16,11 @@ import java.util.Optional;
  */
 @RestController
 public class AuthController {
-    private final PersonService persons;
+    private final ProfileService persons;
     private final String ping = "{}";
 
     @Autowired
-    public AuthController(final PersonService persons) {
+    public AuthController(final ProfileService persons) {
         this.persons = persons;
     }
 
