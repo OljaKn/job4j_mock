@@ -1,0 +1,111 @@
+version: "3.9"
+services:
+
+  auth:
+    image: auth
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    ports:
+      - "9900:9900"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-db:5432/auth
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Mash1Yulia2!!99
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - auth-db
+  auth-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: auth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+
+  desc:
+    image: desc
+    build:
+      context: ./desc
+      dockerfile: Dockerfile
+    ports:
+      - "9902:9902"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://desc-db:5432/desc
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Mash1Yulia2!!99
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - desc-db
+  desc-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: desc
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+
+
+  mock:
+    image: mock
+    build:
+      context: ./mock
+      dockerfile: Dockerfile
+    ports:
+      - "9912:9912"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://mock-db:5432/mock
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Mash1Yulia2!!99
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - mock-db
+  mock-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: mock
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5435:5432"
+
+  notification:
+    image: notification
+    build:
+      context: ./notification
+      dockerfile: Dockerfile
+    ports:
+      - "9920:9920"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://notification-db:5432/notification
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Mash1Yulia2!!99
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - notification-db
+  notification-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: notification
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5436:5432"
+
+  site:
+    image: site
+    build:
+      context: ./site
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_APPLICATION_JSON: '{"auth.url":"http://auth:9900", "desc.url":"http://desc:9902", "mock.url":"http://mock:9912", "notification.url":"http://notification:9920"}'
+    depends_on:
+      - auth
+      - desc
+      - mock
+      - notification
