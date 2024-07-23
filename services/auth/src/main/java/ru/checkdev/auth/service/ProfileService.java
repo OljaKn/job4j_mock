@@ -228,7 +228,7 @@ public class ProfileService {
     public Profile loadFromHh(String linc) {
         Profile profile = null;
         try {
-            Document doc = Jsoup.connect(linc).validateTLSCertificates(false).get();
+            Document doc = Jsoup.connect(linc).followRedirects(false).get();
             String name = doc.getElementsByAttributeValue("data-qa", "resume-personal-name").first().text();
             String address = doc.getElementsByAttributeValue("data-qa", "resume-personal-address").first().text();
             String experience = doc.getElementsByClass("resume-block__title-text resume-block__title-text_sub").first().text();
@@ -276,7 +276,7 @@ public class ProfileService {
             }
         } else if (!StringUtils.isEmpty(profile.getUrlHh())) {
             try {
-                byte[] bytes = Jsoup.connect(profile.getUrlHh()).validateTLSCertificates(false).ignoreContentType(true).execute().bodyAsBytes();
+                byte[] bytes = Jsoup.connect(profile.getUrlHh()).followRedirects(false).ignoreContentType(true).execute().bodyAsBytes();
                 String uuidFile = UUID.randomUUID().toString();
                 photo = new Photo(bytes, uuidFile);
                 if (profileDb.getPhoto() == null) {
